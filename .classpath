@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/windowlicker-swing-DEV-src.jar"/>
 	<classpathentry kind="lib" path="lib/windowlicker-swing-DEV.jar"/>
 	<classpathentry kind="lib" path="lib/hamcrest-all-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/jmock-2.5.1/jmock-2.5.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
