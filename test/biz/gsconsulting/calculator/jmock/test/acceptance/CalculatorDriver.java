@@ -1,5 +1,7 @@
 package biz.gsconsulting.calculator.jmock.test.acceptance;
 
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 import javax.swing.*;
 
 import biz.gsconsulting.calculator.jmock.*;
@@ -17,7 +19,50 @@ public class CalculatorDriver extends JFrameDriver {
 	}
 
 	public void displays(String digits) {
-		JTextFieldDriver display = new JTextFieldDriver(this, JTextField.class, ComponentDriver.named(Calculator.DISPLAY));
+		@SuppressWarnings("unchecked")
+		JTextFieldDriver display = new JTextFieldDriver(this, JTextField.class, named(Calculator.DISPLAY));
 		display.hasText(digits);
+	}
+
+	public void pressDigit(int digit) {
+		clickButtonNamed(Calculator.DIGIT_PREFIX + String.valueOf(digit));		
+	}
+
+	public void plus() {
+		clickButtonNamed(Calculator.PLUS);
+	}
+
+	public void minus() {
+		clickButtonNamed(Calculator.MINUS);
+	}
+
+	public void times() {
+		clickButtonNamed(Calculator.TIMES);
+	}
+
+	public void divides() {
+		clickButtonNamed(Calculator.DIVIDES);
+	}
+
+	public void clear() {
+		clickButtonNamed(Calculator.CLEAR);
+	}
+
+	public void clearEntry() {
+		clickButtonNamed(Calculator.CLEAR_ENTRY);
+	}
+
+	public void backspace() {
+		clickButtonNamed(Calculator.BACKSPACE);
+	}
+	
+	private JButtonDriver findButtonNamed(String name) {
+		return new JButtonDriver(this, JButton.class, named(name));
+	}
+	
+	private void clickButtonNamed(String name)
+	{
+		JButtonDriver button = findButtonNamed(name);
+		button.click();
 	}
 }
