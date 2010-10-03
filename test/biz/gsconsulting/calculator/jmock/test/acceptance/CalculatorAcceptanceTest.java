@@ -8,17 +8,12 @@ public class CalculatorAcceptanceTest {
 
 	protected CalculatorDriver ui;
 
-	public CalculatorAcceptanceTest() {
-		super();
-	}
-
 	@Before
 	public void startApplication() {
 		Calculator.main();
 		ui = new CalculatorDriver();
 	}
 
-	@SuppressWarnings("unused")
 	@After
 	public void stopApplication() {
 		ui.dispose();

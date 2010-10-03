@@ -25,11 +25,11 @@ public class CalculatorView extends JFrame implements IObserveCalculators {
 		display = createDisplay();
 		createDigitButtons();
 		
+		createOperator("=", Calculator.ENTER, 5);
 		createOperator("+", Calculator.PLUS,  4);
 		createOperator("-", Calculator.MINUS, 3);
 		createOperator("x", Calculator.TIMES, 2);
 		createOperator("/", Calculator.DIVIDES, 1);
-		
 		createClear();
 		
 		JButton clearEntry = createButton("CE", Calculator.CLEAR_ENTRY);
@@ -72,13 +72,13 @@ public class CalculatorView extends JFrame implements IObserveCalculators {
 		addButtonAt(2, 1, clear);
 	}
 
-	private void createOperator(String symbol, String name, final int ypos) {
+	private void createOperator(String symbol, final String name, final int ypos) {
 		JButton button = createButton(symbol, name);
 		button.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				model.clear();
+				model.operator(name);
 			}
 		});
 		addButtonAt(OPERATOR_COLUMN, ypos, button);

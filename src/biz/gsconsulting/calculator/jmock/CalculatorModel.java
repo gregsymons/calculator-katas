@@ -1,25 +1,26 @@
 package biz.gsconsulting.calculator.jmock;
 
+import biz.gsconsulting.calculator.jmock.expressions.*;
+
 public class CalculatorModel implements ICalculatorModel {
-	
 	IObserveCalculators observer;
 	final StringBuffer digits = new StringBuffer("0");
-	
+	Expression currentExpression = NullExpression.Instance();
+
 	@Override
 	public void collectDigit(int digit) {
-		String digitAsString = Integer.toString(digit);
-		if (digits.toString().compareTo("0") == 0)
+		if (currentExpression.isTerminal())
 		{
-			digits.replace(0, 1, digitAsString);
+			currentExpression = NullExpression.Instance();
+			resetDigits(digit);
 		}
-		else
-		{
-			digits.append(digitAsString);
+		else if (digitsValue() == 0) {
+			resetDigits(digit);
+		} else {
+			appendDigit(digit);
 		}
-			
-		digitsUpdated();
 	}
-	
+
 	@Override
 	public void subscribe(IObserveCalculators o) {
 		observer = o;
@@ -28,12 +29,7 @@ public class CalculatorModel implements ICalculatorModel {
 
 	@Override
 	public void clear() {
-		digits.replace(0, digits.length(), "0");
-		digitsUpdated();
-	}
-
-	private void digitsUpdated() {
-		if (observer != null) observer.digitsUpdated(digits.toString());
+		resetDigits(0);
 	}
 
 	@Override
@@ -43,15 +39,47 @@ public class CalculatorModel implements ICalculatorModel {
 
 	@Override
 	public void backspace() {
-		if (digits.length() > 1) 
+		if (digits.length() > 1) {
+			removeLastDigit();
+		} else {
+			resetDigits(0);
+		}
+	}
+
+	@Override
+	public void operator(String name) {
+		currentExpression = currentExpression.operator(name, digitsValue());
+		if (currentExpression.isTerminal())
 		{
-			digits.setLength(digits.length() - 1);
+			resetDigits(currentExpression.result());
 		}
 		else
 		{
-			digits.replace(0, digits.length(), "0");
+			clear();
 		}
-		
+	}
+
+	private int digitsValue() {
+		return Integer.parseInt(digits.toString());
+	}
+
+	private void appendDigit(int digit) {
+		digits.append(Integer.toString(digit));
 		digitsUpdated();
+	}
+
+	private void resetDigits(int newValue) {
+		digits.replace(0, digits.length(), Integer.toString(newValue));
+		digitsUpdated();
+	}
+	
+	private void removeLastDigit() {
+		digits.setLength(digits.length() - 1);
+		digitsUpdated();
+	}
+
+	private void digitsUpdated() {
+		if (observer != null)
+			observer.digitsUpdated(digits.toString());
 	}
 }

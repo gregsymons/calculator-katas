@@ -2,6 +2,8 @@ package biz.gsconsulting.calculator.jmock;
 
 import javax.swing.*;
 
+import biz.gsconsulting.calculator.jmock.expressions.*;
+
 public class Calculator {
 
 	public static void main(String... args) {
@@ -21,5 +23,6 @@ public class Calculator {
 	public static final String CLEAR = "clear";
 	public static final String CLEAR_ENTRY = "clear_entry";
 	public static final String BACKSPACE = "backspace";
+	public static final String ENTER = "enter";
 
 }

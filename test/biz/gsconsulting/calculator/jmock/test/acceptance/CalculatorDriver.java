@@ -1,7 +1,5 @@
 package biz.gsconsulting.calculator.jmock.test.acceptance;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 import javax.swing.*;
 
 import biz.gsconsulting.calculator.jmock.*;
@@ -18,10 +16,19 @@ public class CalculatorDriver extends JFrameDriver {
 				showingOnScreen());
 	}
 
-	public void displays(String digits) {
+	public void displays(final String digits) {
 		@SuppressWarnings("unchecked")
 		JTextFieldDriver display = new JTextFieldDriver(this, JTextField.class, named(Calculator.DISPLAY));
-		display.hasText(digits);
+		String actualDigits;
+		if (!digits.contains("."))
+		{
+			actualDigits = digits + ".";
+		}
+		else
+		{
+			actualDigits = digits;
+		}
+		display.hasText(actualDigits);
 	}
 
 	public void pressDigit(int digit) {
@@ -55,13 +62,17 @@ public class CalculatorDriver extends JFrameDriver {
 	public void backspace() {
 		clickButtonNamed(Calculator.BACKSPACE);
 	}
+
+	public void enter() {
+		clickButtonNamed(Calculator.ENTER);
+	}
 	
+	@SuppressWarnings("unchecked")
 	private JButtonDriver findButtonNamed(String name) {
 		return new JButtonDriver(this, JButton.class, named(name));
 	}
 	
-	private void clickButtonNamed(String name)
-	{
+	private void clickButtonNamed(String name)	{
 		JButtonDriver button = findButtonNamed(name);
 		button.click();
 	}
